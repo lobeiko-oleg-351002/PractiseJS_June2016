@@ -12,7 +12,9 @@ console.log(evaluate("(5+5+5)/3/(4+1)"))    //5 5 + 5 + 3 / 4 1 + /
 console.log(evaluate("(3-42)/4+28*2")) 
 console.log(evaluate("(3-4.2)/4+28*2.76"));
 console.log(evaluate("(-3-42)/4+28*2"));
-//console.log(evaluate("(3+97)^2"));
+console.log(evaluate("(3+97)^2"));
+console.log(evaluate("-2.33"));
+console.log(evaluate("-2+1"));
 
 
 
@@ -90,7 +92,7 @@ function toRPN(str)
             rpn.push(number);
         }
         else {
-            if (((str[i] == "-") || (str[i] == "+")) && (i > 0) && (isOperator(str[i-1])) && (str[i-1] != ")")) {
+            if (((str[i] == "-") || (str[i] == "+")) && ((i == 0) || (isOperator(str[i-1])) && (str[i-1] != ")"))) {
                 number = str[i] + readNumber(str,i+1); 
                 i += number.length;
                 rpn.push(Number(number));
