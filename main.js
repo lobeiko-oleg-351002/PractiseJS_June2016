@@ -9,11 +9,16 @@ console.log(evaluate("2+2*9/3"))    //2 2 9 * 3 / +
 console.log(evaluate("(3*5)-4/4"))  //3 5 * 4 4 / -
 console.log(evaluate("2+2+(2-1)*(5-3)"))    //2 2 + 2 1 - 5 3 - * +
 console.log(evaluate("(5+5+5)/3/(4+1)"))    //5 5 + 5 + 3 / 4 1 + /
+console.log(evaluate("(3-42)/4+28*2")) 
+console.log(evaluate("(3-4.2)/4+28*2.76"));
+console.log(evaluate("(-3-42)/4+28*2"));
+//console.log(evaluate("(3+97)^2"));
+
 
 
 function isOperator(char)
 {
-    var operators = "()/*+-"
+    var operators = "()/*+-^"
     if (operators.indexOf(char) != -1) {
         return true;
     }
@@ -42,6 +47,9 @@ function getPriority(operator)
         case "/":
             priority = 3;
             break;
+        case "^":
+            priority = 4;
+            break;
     }
     return priority;
 }
@@ -54,6 +62,20 @@ function comparePriorities(op1, op2)
     return false;
 }
 
+function readNumber(str,i)
+{
+    var number = "";
+    while (!isNaN(str[i])) {
+        number += str[i];
+        i++;
+        if (str[i] == ".") {
+            number += str[i];
+            i++;
+        }
+    }    
+    return number;
+}
+
 function toRPN(str)
 {
     var rpn = [];
@@ -61,13 +83,18 @@ function toRPN(str)
     stack.push("terminal");
     for (i = 0; i < str.length; i++)
     {
+        var number;
         if (!isNaN(str[i])) {
-            var number = "";
-            while (!isNaN(str[i])) {
-                number += str[i];
-                i++;
-            }    
+            number = readNumber(str,i); 
+            i += number.length;
             rpn.push(number);
+        }
+        else {
+            if (((str[i] == "-") || (str[i] == "+")) && (i > 0) && (isOperator(str[i-1])) && (str[i-1] != ")")) {
+                number = str[i] + readNumber(str,i+1); 
+                i += number.length;
+                rpn.push(Number(number));
+            }
         }
         if (isOperator(str[i])) {
             if (comparePriorities(str[i],stack[stack.length-1])) {
@@ -78,13 +105,36 @@ function toRPN(str)
                 stack.push(str[i]);
             }
         }
-        
-       // console.log(stack)
+        //console.log("rpn: " + rpn)
+        //console.log("stack: " + stack+'\n')
     }
     while (stack.length > 1) {
         rpn.push(stack.pop());
     }
     return rpn;
+}
+
+function calculate(operator, op1, op2)
+{
+    switch(operator)
+    {
+        case "+": 
+            op1 = op1 + op2;                  
+            break;
+        case "-": 
+            op1 = op1 - op2;
+            break;
+        case "*": 
+            op1 = op1 * op2;
+            break;
+        case "/": 
+            op1 = op1 / op2;
+            break;
+        case "^":
+            op1 = Math.pow(op1,op2);
+            break;
+    }
+    return op1;
 }
 
 function evaluate(str)
@@ -95,25 +145,12 @@ function evaluate(str)
         if (!isNaN(rpn[i])) {
             stack.push(rpn[i]);
         }    
-        else if ((rpn[i] != "(") && (rpn[i] != ")")){
-            var op2 = stack.pop();
-            var op1 = stack.pop();
-            switch(rpn[i])
-            {
-                case "+": 
-                    op1 = Number(op1) + Number(op2);                  
-                    break;
-                case "-": 
-                    op1 = Number(op1) - Number(op2);
-                    break;
-                case "*": 
-                    op1 = Number(op1) * Number(op2);
-                    break;
-                case "/": 
-                    op1 = Number(op1) / Number(op2);
-                    break;
+        else {
+            if ((rpn[i] != "(") && (rpn[i] != ")")) {
+                var op2 = Number(stack.pop());
+                var op1 = Number(stack.pop());
+                stack.push(calculate(rpn[i],op1,op2));   
             }
-            stack.push(op1);                      
         }      
     }
     return stack.pop();
