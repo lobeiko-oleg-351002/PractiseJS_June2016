@@ -15,6 +15,8 @@ console.log(evaluate("(-3-42)/4+28*2"));
 console.log(evaluate("(3+97)^2"));
 console.log(evaluate("-2.33"));
 console.log(evaluate("-2+1"));
+console.log(evaluate("2+4-2*4/8"));
+
 
 
 

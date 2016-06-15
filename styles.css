@@ -1,0 +1,248 @@
+body {
+  background:#000;
+}
+
+#background {
+    width:310px;
+    height:400px;
+    background:gray;
+    margin:50px auto;
+    -webkit-animation:bgChange 2s 2s alternate infinite;
+    transition: all 2s ease;
+}
+
+button {
+    border:0;
+    color:#fff;
+}
+
+#result {
+    display:block;
+    font-family:monospace;
+    width:310px;
+    height:40px;
+    margin: auto;
+    text-align: right;
+    border:0;
+    background:#00f;
+    color:#fff;
+    font-size:32px;
+    outline: none;
+    overflow: hidden;
+    letter-spacing: 4px;
+    position: relative;
+}
+
+#result:hover {
+    
+    cursor: text;
+    
+}
+
+#first-rows {
+    margin-top: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    top:10px;
+}
+
+.rows {
+    margin-top:10px;
+}
+
+.del-style {
+    width:56px;
+    height:56px;
+    margin-left:1px;
+    border-radius:4px;
+}
+
+.delete-bg {
+    background:#f29424;
+    color:#fff;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+}
+
+.delete-bg:hover {
+    background:#504032;
+    color:#f00;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+}
+
+.delete-bg:active {
+    background:#504032;
+    color:#f00;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+    box-shadow: inset 4px 4px 4px #000;
+}
+
+.clear-bg
+{
+    background:#ff4500;
+    color:#000;
+    font-size:17px;
+    cursor:pointer;
+    outline:none;
+}
+
+#clear {
+    width:56px;
+    height:56px;
+    margin-left:1px;
+    font-size:26px;
+}
+
+.clear-bg:active {
+    background:#ff2f23;
+    color:#000fff;
+    cursor: pointer;
+    outline:none;
+    font-size:26px;
+    box-shadow: inset 4px 4px 4px #555;
+}
+
+.clear-bg:hover {
+    background:#ff2f23;
+    color:#000fff;
+    cursor: pointer;
+    outline:none;
+    font-size:26px;
+
+}
+
+
+
+/* Button styling */
+.btn-style {
+    width:56px;
+    height:56px;
+    margin-left:3px;
+    border-radius:4px;
+}
+
+.first-child {
+ margin-left:1px;
+}
+
+ .num-bg {
+    background:#000;
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    outline:none;
+}
+
+ .num-bg:active {
+    background:#000;
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    outline:none;
+    box-shadow: inset 5px 5px 5px #555;
+}
+
+.zero-style {
+    width:119px;
+    height:56px;
+    margin-left:3px;
+    border-radius:4px;
+    background:#000;
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    outline:none;
+}
+
+ .zero-style:active {
+    background:#000;
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    outline:none;
+    box-shadow: inset 5px 5px 5px #555;
+}
+
+.operator {
+    background:#333;
+    color:#fff;
+    font-size:26px;
+    cursor: pointer;
+}
+
+.operator:active {
+    background:#333;
+    color:#000;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+    box-shadow: inset 4px 4px 4px #555;
+}
+.operator:hover {
+    color:#000;
+    background:#ffff00;
+}
+
+.calc-style {
+    width:56px;
+    height:56px;
+    margin-left:3px;
+    border-radius:4px;
+    background:#0f0;
+    color:#fff;
+    font-size:26px;
+    cursor:pointer;
+    outline:none;
+}
+
+.calc-style:active {
+    background:#333;
+    color:#000;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+    box-shadow: inset 4px 4px 4px #555;
+}
+.calc-style:hover {
+    color:#000;
+    background:#ffff00;
+}
+
+/*Adding a background color to the delete button */
+.del-bg {
+    background:#24b4de;
+    color:#fff;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+    border-bottom:3px solid #399cb9;
+}
+
+.del-bg:active {
+    background:#24b4de;
+    color:#fff;
+    font-size:26px;
+    cursor: pointer;
+    outline:none;
+    box-shadow: inset 4px 4px 4px #399cb9;
+}
+
+
+@-webkit-keyframes bgChange {
+    0% {
+       background:#24b4de; 
+    }
+    
+    50% {
+      background:#17a928;
+    }
+    
+    100% {
+        background:#399cb9;
+    }
+}
