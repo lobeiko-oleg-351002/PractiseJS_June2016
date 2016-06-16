@@ -18,9 +18,16 @@ console.log(evaluate("-2+1"));
 console.log(evaluate("2+4-2*4/8"));
 
 
-
+const regExp = /^(\d*)(?:\s*([-^+*\/](?![-^+*\/]))\(*\s*((?:\s[-+])?\d*?)\s*)*$/;
 var expression = "";
 
+function validate(newExpression)
+{    
+    if (newExpression.match(regExp)) {
+        return true;
+    }
+    return false;
+}
 function processingExpression()
 {
     document.getElementById("result").textContent = evaluate(expression);
@@ -29,25 +36,27 @@ function processingExpression()
 
 function addCharToExpression(char)
 {
-    expression += char;
-    setExpression();
+    setExpression(expression + char);
 }
 
 function deleteCharFromExpression()
 {
     expression = expression.slice(0,expression.length - 1);
-    setExpression();
+    document.getElementById("result").textContent = expression;
 }
 
-function setExpression()
+function setExpression(newExpression)
 {
-    document.getElementById("result").textContent = expression;
+    if (validate(newExpression)) {
+        document.getElementById("result").textContent = newExpression;
+        expression = newExpression;
+    }    
 }
 
 function clearExpression()
 {
+    document.getElementById("result").textContent = "";
     expression = "";
-    setExpression();
 }
 
 function isOperator(char)
