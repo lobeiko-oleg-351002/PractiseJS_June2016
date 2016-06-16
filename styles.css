@@ -211,7 +211,7 @@ button {
 .calc-style:hover {
     color:#000;
     background:#ffff00;
-}
+} 
 
 /*Adding a background color to the delete button */
 .del-bg {
@@ -235,14 +235,7 @@ button {
 
 @-webkit-keyframes bgChange {
     0% {
-       background:#24b4de; 
+       background:#000; 
     }
     
-    50% {
-      background:#17a928;
-    }
-    
-    100% {
-        background:#399cb9;
-    }
 }

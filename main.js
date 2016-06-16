@@ -19,6 +19,36 @@ console.log(evaluate("2+4-2*4/8"));
 
 
 
+var expression = "";
+
+function processingExpression()
+{
+    document.getElementById("result").textContent = evaluate(expression);
+    expression = "";
+}
+
+function addCharToExpression(char)
+{
+    expression += char;
+    setExpression();
+}
+
+function deleteCharFromExpression()
+{
+    expression = expression.slice(0,expression.length - 1);
+    setExpression();
+}
+
+function setExpression()
+{
+    document.getElementById("result").textContent = expression;
+}
+
+function clearExpression()
+{
+    expression = "";
+    setExpression();
+}
 
 function isOperator(char)
 {
@@ -72,14 +102,22 @@ function readNumber(str,i)
     while (!isNaN(str[i])) {
         number += str[i];
         i++;
-        if (str[i] == ".") {
-            number += str[i];
-            i++;
+        if (i < str.length) {
+            if (str[i] == ".") {
+                number += str[i];
+                i++;
+            }
         }
     }    
     return number;
 }
 
+function isUnaryOperator(char) {
+    if (((char == "-") || (char == "+")) && ((i == 0) || (isOperator(char)) && (char != ")"))) {
+        return true;
+    }
+    return false;
+}
 function toRPN(str)
 {
     var rpn = [];
@@ -94,7 +132,7 @@ function toRPN(str)
             rpn.push(number);
         }
         else {
-            if (((str[i] == "-") || (str[i] == "+")) && ((i == 0) || (isOperator(str[i-1])) && (str[i-1] != ")"))) {
+            if (isUnaryOperator(str[i])) {
                 number = str[i] + readNumber(str,i+1); 
                 i += number.length;
                 rpn.push(Number(number));

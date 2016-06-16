@@ -2,50 +2,50 @@
     <head>
         <title> JS Calc</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
+        <script src="main.js"></script>
     </head>
     <body>
         <div id="background">  
             
             <div id="result">
-                Result
             </div>
 
             <div id="main">
                  
                 <div id="first-rows">
-                     <button class="btn-style clear-bg" id="clear"> C </button>
-                     <button value="^" class="btn-style operator">^</button>
-                     <button value="/" class="btn-style operator">/</button>
-                     <button value="*" class="btn-style operator">*</button>
-                     <button value="-" class="btn-style operator">-</button>
+                     <button class="btn-style clear-bg" id="clear" onclick="clearExpression()"> C </button>
+                     <button value="^" class="btn-style operator" onclick="addCharToExpression('^')">^</button>
+                     <button value="/" class="btn-style operator" onclick="addCharToExpression('/')">/</button>
+                     <button value="*" class="btn-style operator" onclick="addCharToExpression('*')">*</button>
+                     <button value="-" class="btn-style operator" onclick="addCharToExpression('-')">-</button>
                 </div>
 
                  <div class="rows">
-                     <button class="del-style delete-bg"> Del </button>
-                     <button value="7" class="btn-style num-bg">7</button>
-                     <button value="8" class="btn-style num-bg">8</button>
-                     <button value="9" class="btn-style num-bg">9</button>
-                     <button value="+" class="btn-style operator">+</button>
+                     <button class="del-style delete-bg" onclick="deleteCharFromExpression()"> Del </button>
+                     <button value="7" class="btn-style num-bg" onclick="addCharToExpression('7')">7</button>
+                     <button value="8" class="btn-style num-bg" onclick="addCharToExpression('8')">8</button>
+                     <button value="9" class="btn-style num-bg" onclick="addCharToExpression('9')">9</button>
+                     <button value="+" class="btn-style operator" onclick="addCharToExpression('+')">+</button>
                  </div>
 
                  <div class="rows">
-                     <button value="(" class="btn-style operator first-child"> ( </button>
-                     <button value="4" class="btn-style num-bg">4</button>
-                     <button value="5" class="btn-style num-bg">5</button>
-                     <button value="6" class="btn-style num-bg">6</button>
+                     <button value="(" class="btn-style operator first-child" onclick="addCharToExpression('(')"> ( </button>
+                     <button value="4" class="btn-style num-bg" onclick="addCharToExpression('4')">4</button>
+                     <button value="5" class="btn-style num-bg" onclick="addCharToExpression('5')">5</button>
+                     <button value="6" class="btn-style num-bg" onclick="addCharToExpression('6')">6</button>
                  </div>
 
                  <div class="rows">
-                     <button value=")" class="btn-style operator first-child"> ) </button>
-                     <button value="1" class="btn-style num-bg">1</button>
-                     <button value="2" class="btn-style num-bg">2</button>
-                     <button value="3" class="btn-style num-bg">3</button>
+                     <button value=")" class="btn-style operator first-child" onclick="addCharToExpression(')')"> ) </button>
+                     <button value="1" class="btn-style num-bg" onclick="addCharToExpression('1')">1</button>
+                     <button value="2" class="btn-style num-bg" onclick="addCharToExpression('2')">2</button>
+                     <button value="3" class="btn-style num-bg" onclick="addCharToExpression('3')">3</button>
                  </div>
 
                  <div class="rows">
-                     <button value="." class="btn-style operator first-child"> . </button>
-                     <button value="0" class="zero-style">0</button>
-                     <button value="=" class="calc-style">=</button>
+                     <button value="." class="btn-style operator first-child" onclick="addCharToExpression('.')"> . </button>
+                     <button value="0" class="zero-style" onclick="addCharToExpression('0')">0</button>
+                     <button value="=" class="calc-style" onclick="processingExpression()">=</button>
                  </div>
 
             </div>         
