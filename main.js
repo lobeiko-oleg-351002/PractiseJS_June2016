@@ -17,8 +17,7 @@ console.log(evaluate("-2.33"));
 console.log(evaluate("-2+1"));
 console.log(evaluate("2+4-2*4/8"));
 
-
-const regExp = /^(\d*)(?:\s*([-^+*\/](?![-^+*\/]))\(*\s*((?:\s[-+])?\d*?)\s*)*$/;
+const regExp = /^([-+]?)(?![-^+*\/])(\(*)(\d*(\.(?!\()\d*)?)(?:([-^+*\/\(](?![-.^+*\/]))((?:[-+])?\d*?(\.\d*)?\)*))*$/;
 var expression = "";
 
 function validate(newExpression)
