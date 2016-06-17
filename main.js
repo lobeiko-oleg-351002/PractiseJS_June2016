@@ -19,6 +19,31 @@ console.log(evaluate("2+4-2*4/8"));
 
 const regExp = /^([-+]?)(?![-^+*\/])(\(*)(\d*(\.(?![-^+*\/\)])\d*)?)(?:([-^+*\/](?![-.^+*\/\)]))(\(*)(\d*?(\.(?![-^+*\/\)])\d*)?\)*))*$/;
 var expression = "";
+var openedBrackets = 0;
+
+function putBracket()
+{
+    var lastChar;
+    if (expression.length == 0) {
+        lastChar = "";
+    }
+    else {
+        lastChar = expression[expression.length-1];
+    }
+    var bracket = "";
+    
+    if (((!isNaN(lastChar)) || (lastChar == ")")) && (openedBrackets > 0)) {
+        bracket = ")";
+        openedBrackets--;       
+    }
+    else {
+        if ((lastChar == "") || ("/*+-^".indexOf(lastChar) != -1)) {
+            bracket = "(";
+            openedBrackets++;
+        }
+    }
+    addCharToExpression(bracket);
+}
 
 function validate(newExpression)
 {    
