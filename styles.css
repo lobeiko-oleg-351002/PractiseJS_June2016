@@ -2,7 +2,7 @@ body {
   background:#000;
 }
 
-#background {
+.background {
     width:310px;
     height:400px;
     background:gray;
@@ -16,7 +16,7 @@ button {
     color:#fff;
 }
 
-#result {
+.result {
     display:block;
     font-family:monospace;
     width:310px;
@@ -33,13 +33,13 @@ button {
     position: relative;
 }
 
-#result:hover {
+.result:hover {
     
     cursor: text;
     
 }
 
-#first-rows {
+.first-rows {
     margin-top: 4px;
     margin-bottom: 20px;
     position: relative;

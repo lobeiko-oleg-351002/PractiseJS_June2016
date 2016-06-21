@@ -1,3 +1,4 @@
+"use strict";
 console.log(evaluate("2+2")) //22+
 console.log(evaluate("2+2-4")) //22+4-
 console.log(evaluate("2+2*3"))  //223*+ 
@@ -24,7 +25,7 @@ var openedBrackets = 0;
 function putBracket()
 {
     var lastChar;
-    if (expression.length == 0) {
+    if (expression.length === 0) {
         lastChar = "";
     }
     else {
@@ -145,7 +146,7 @@ function readNumber(str,i)
     return number;
 }
 
-function isUnaryOperator(char) {
+function isUnaryOperator(char, i) {
     if (((char == "-") || (char == "+")) && ((i == 0) || (isOperator(char)) && (char != ")"))) {
         return true;
     }
@@ -156,7 +157,7 @@ function toRPN(str)
     var rpn = [];
     var stack = [];
     stack.push("terminal");
-    for (i = 0; i < str.length; i++)
+    for (var i = 0; i < str.length; i++)
     {
         var number;
         if (!isNaN(str[i])) {
@@ -165,7 +166,7 @@ function toRPN(str)
             rpn.push(number);
         }
         else {
-            if (isUnaryOperator(str[i])) {
+            if (isUnaryOperator(str[i], i)) {
                 number = str[i] + readNumber(str,i+1); 
                 i += number.length;
                 rpn.push(Number(number));
@@ -216,7 +217,7 @@ function evaluate(str)
 {
     var rpn = toRPN(str);
     var stack = [];
-    for (i = 0; i < rpn.length; i++) {
+    for (var i = 0; i < rpn.length; i++) {
         if (!isNaN(rpn[i])) {
             stack.push(rpn[i]);
         }    
