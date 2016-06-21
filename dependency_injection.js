@@ -22,29 +22,36 @@ function getFilesFromInput(inputStrings)
 }
 
 var sequence = [];
+var errorSequence
 
 function getFileSequence(files) {
     for (var i = 0; i < files.length; i++) {
-        checkOnComplexity(files[i],files);
+        checkOnComplexity(files[i],files, null);
     }
     return sequence;
 }
 
 
-function checkOnComplexity(file, files)
+function checkOnComplexity(file, files, previousFile)
 {
-    for (var i = 0; i < files.length; i++) {
-        if (file.name === files[i].name) {
-            for (var j = 0; j < files[i].innerFiles.length; j++) {
-                checkOnComplexity(files[i].innerFiles[j], files);
-            }   
-        }
-        else {
+    try {
+        for (var i = 0; i < files.length; i++) {
+            if (file.name === files[i].name) {
+                for (var j = 0; j < files[i].innerFiles.length; j++) {
+                    checkOnComplexity(files[i].innerFiles[j], files, file);
+                }   
+            }
+            else {
 
+            }
+        }
+        if (!isFileInSequence(file)) {
+            sequence.push(file);
         }
     }
-    if (!isFileInSequence(file)) {
-        sequence.push(file);
+    catch(ex) {
+        errorSequence.push(file);
+        throw ex;
     }
 }
 
