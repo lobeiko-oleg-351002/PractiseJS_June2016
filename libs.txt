@@ -1,6 +1,5 @@
-sgdf
-sdfghds
-fgsdf
-hdg
-hdfg
-hf
+main: math, io, coolLib
+math: io, superCoolLib
+coolLib: superCoolLib
+io:
+superCoolLib:

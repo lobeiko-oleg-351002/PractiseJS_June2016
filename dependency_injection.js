@@ -58,14 +58,10 @@ function isFileInSequence(file)
     return false;
 }
 
-console.log(getFileSequence(getFilesFromInput(readFile())));
-
 function readFile() {
-    var output = [];
-    output.push("main: math, io, coolLib");
-    output.push("math: io, superCoolLib");
-    output.push("coolLib: superCoolLib");
-    output.push("io:");
-    output.push("superCoolLib:");
+    var fs = require('fs');
+    var output = fs.readFileSync('libs.txt').toString().split("\n");
     return output;
 }
+
+console.log(getFileSequence(getFilesFromInput(readFile())));
