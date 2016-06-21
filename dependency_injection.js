@@ -1,36 +1,71 @@
-'use strict';
-function openFile(){
-    const txtFile = "E:\NodeJS_Projects\PractiseJS_June2016\libs.txt"
-    var file = new File.OpenText(txtFile);
-    return file;
-}
-function readFile(file)
-{
-    //return file.readAsText();
+"use strict";
+
+function File(name) {
+    this.name = name;
+    this.innerFiles = [];
 }
 
-function main()
+function getFilesFromInput(inputStrings)
 {
-   // readTextFile("file://E:/NodeJS_Projects/PractiseJS_June2016/libs.txt")
-    var fr = new FileReader();
+    var complexFiles = [];
+    for (var i = 0; i < inputStrings.length; i++) {
+        var str = inputStrings[i].replace(/\s*/g,"");
+        var fileAndInners = str.split(':');
+        var newComplexFile = new File(fileAndInners[0]);
+        var innerFiles = fileAndInners[1].toString().split(',');
+        for (var j = 0; j < innerFiles.length; j++) {
+            newComplexFile.innerFiles.push(new File(innerFiles[j]));
+        }
+        complexFiles.push(newComplexFile);
+    }
+    return complexFiles;
 }
 
-main();
+var sequence = [];
 
-function readTextFile(file)
+function getFileSequence(files) {
+    for (var i = 0; i < files.length; i++) {
+        checkOnComplexity(files[i],files);
+    }
+    return sequence;
+}
+
+
+function checkOnComplexity(file, files)
 {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                console.log(allText);
-            }
+    for (var i = 0; i < files.length; i++) {
+        if (file.name === files[i].name) {
+            for (var j = 0; j < files[i].innerFiles.length; j++) {
+                checkOnComplexity(files[i].innerFiles[j], files);
+            }   
+        }
+        else {
+
         }
     }
-    rawFile.send(null);
+    if (!isFileInSequence(file)) {
+        sequence.push(file);
+    }
+}
+
+function isFileInSequence(file)
+{
+    for (var i = 0; i < sequence.length; i++) {
+        if (file.name === sequence[i].name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+console.log(getFileSequence(getFilesFromInput(readFile())));
+
+function readFile() {
+    var output = [];
+    output.push("main: math, io, coolLib");
+    output.push("math: io, superCoolLib");
+    output.push("coolLib: superCoolLib");
+    output.push("io:");
+    output.push("superCoolLib:");
+    return output;
 }
