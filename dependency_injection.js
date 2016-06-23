@@ -1,68 +1,101 @@
 "use strict";
 
-function File(name) {
-    this.name = name;
-    this.innerFiles = [];
+var bootSeq = [];
+
+var TreeManager = (function() {
+    var instance;
+    
+    function init() {
+        var tree = [];
+        
+        function File(name) {
+            this.name = name;
+            this.children = [];
+        }
+        
+        function checkBranch(nodeName, checkedNode) {
+            if (nodeName === checkedNode.name) {
+                return checkedNode;
+            } 
+            else {
+                for (var i = 0; i < checkedNode.children.length; i++) {
+                    var node = checkBranch(nodeName,checkedNode.children[i]);
+                    if (node != undefined) {
+                        return node;
+                    }
+                }
+                return undefined;
+            }
+        }
+        
+        function findOrCreateNode(nodeName, rootChildren) {
+            var node = undefined;              
+            for (var i = 0; i < tree.length; i++) {
+                node = checkBranch(nodeName,tree[i]);
+            }
+            if (node === undefined) {
+                node = new File(nodeName);
+            }
+            rootChildren.push(node);
+            return node;
+        }
+        
+        function printNodes(root) {
+            for (var i = 0; i < root.children.length; i++) {
+                printNodes(root.children[i]);
+            }    
+            if (bootSeq.indexOf(root.name) == -1) {
+                bootSeq.push(root.name);
+            }
+        }
+        
+        return {
+            addNodes: function(rootName, nodeNames) {
+                var root = findOrCreateNode(rootName,tree);
+                for (var i = 0; i < nodeNames.length; i++) {
+                    findOrCreateNode(nodeNames[i],root.children);
+                }
+            },
+            
+            printTree: function() {
+                for (var i = 0; i < tree.length; i++) {
+                    printNodes(tree[i]);
+                }
+            }
+        }
+    }
+    return {
+        getInstance: function() {
+            if (!instance) {
+                instance = init();
+            }
+            return instance;
+        }
+    }
+})();
+
+function removeEmptyNames(nodeNames) {
+    for (var j = 0; j < nodeNames.length; j++) {
+        if (nodeNames[j] === '') {
+            nodeNames.splice(j,1);
+        }
+    }
+    return nodeNames;
 }
 
-function getFilesFromInput(inputStrings)
+function bootFromFile(inputStrings)
 {
-    var complexFiles = [];
+    var treeManager = TreeManager.getInstance();
     for (var i = 0; i < inputStrings.length; i++) {
         var str = inputStrings[i].replace(/\s*/g,"");
         var fileAndInners = str.split(':');
-        var newComplexFile = new File(fileAndInners[0]);
-        var innerFiles = fileAndInners[1].toString().split(',');
-        for (var j = 0; j < innerFiles.length; j++) {
-            newComplexFile.innerFiles.push(new File(innerFiles[j]));
-        }
-        complexFiles.push(newComplexFile);
+        var rootName = fileAndInners[0];
+        var nodeNames = fileAndInners[1].split(',');
+        nodeNames = removeEmptyNames(nodeNames);
+        treeManager.addNodes(rootName,nodeNames);
     }
-    return complexFiles;
-}
-
-var sequence = [];
-var errorSequence
-
-function getFileSequence(files) {
-    for (var i = 0; i < files.length; i++) {
-        checkOnComplexity(files[i],files, null);
-    }
-    return sequence;
-}
-
-
-function checkOnComplexity(file, files, previousFile)
-{
-    try {
-        for (var i = 0; i < files.length; i++) {
-            if (file.name === files[i].name) {
-                for (var j = 0; j < files[i].innerFiles.length; j++) {
-                    checkOnComplexity(files[i].innerFiles[j], files, file);
-                }   
-            }
-            else {
-
-            }
-        }
-        if (!isFileInSequence(file)) {
-            sequence.push(file);
-        }
-    }
-    catch(ex) {
-        errorSequence.push(file);
-        throw ex;
-    }
-}
-
-function isFileInSequence(file)
-{
-    for (var i = 0; i < sequence.length; i++) {
-        if (file.name === sequence[i].name) {
-            return true;
-        }
-    }
-    return false;
+    treeManager.printTree();
+    console.log(bootSeq);
 }
 
 function readFile() {
@@ -71,4 +104,4 @@ function readFile() {
     return output;
 }
 
-console.log(getFileSequence(getFilesFromInput(readFile())));
+bootFromFile(readFile());
