@@ -1,21 +1,23 @@
 "use strict";
 
 var bootSeq = [];
+var errorSeq = [];
 
 var TreeManager = (function() {
     var instance;
     
     function init() {
-        var tree = [];
+        var tree = new Array();
         
         function File(name) {
             this.name = name;
-            this.children = [];
+            this.children = new Array();
+            //this.children = [];
         }
         
         function checkBranch(nodeName, checkedNode) {
             if (nodeName === checkedNode.name) {
-                return checkedNode;
+                return checkedNode;                
             } 
             else {
                 for (var i = 0; i < checkedNode.children.length; i++) {
@@ -29,14 +31,18 @@ var TreeManager = (function() {
         }
         
         function findOrCreateNode(nodeName, rootChildren) {
-            var node = undefined;              
+            var node = undefined;       
+            var isNew = false;
             for (var i = 0; i < tree.length; i++) {
                 node = checkBranch(nodeName,tree[i]);
             }
             if (node === undefined) {
-                node = new File(nodeName);
+                node = new File(nodeName); 
+                isNew = true;
             }
-            rootChildren.push(node);
+            if ((isNew) || (rootChildren != tree)) {
+                rootChildren.push(node);
+            }
             return node;
         }
         
@@ -53,7 +59,7 @@ var TreeManager = (function() {
             addNodes: function(rootName, nodeNames) {
                 var root = findOrCreateNode(rootName,tree);
                 for (var i = 0; i < nodeNames.length; i++) {
-                    findOrCreateNode(nodeNames[i],root.children);
+                    findOrCreateNode(nodeNames[i], root.children);
                 }
             },
             
@@ -61,6 +67,7 @@ var TreeManager = (function() {
                 for (var i = 0; i < tree.length; i++) {
                     printNodes(tree[i]);
                 }
+                //console.log(tree)
             }
         }
     }
@@ -103,5 +110,4 @@ function readFile() {
     var output = fs.readFileSync('libs.txt').toString().split("\n");
     return output;
 }
-
 bootFromFile(readFile());
