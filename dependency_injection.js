@@ -12,7 +12,6 @@ var TreeManager = (function() {
         function File(name) {
             this.name = name;
             this.children = new Array();
-            //this.children = [];
         }
         
         function checkBranch(nodeName, checkedNode) {
@@ -46,10 +45,28 @@ var TreeManager = (function() {
             return node;
         }
         
-        function printNodes(root) {
-            for (var i = 0; i < root.children.length; i++) {
-                printNodes(root.children[i]);
-            }    
+        function addNodesToErrorSequence(nodes) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (errorSeq.indexOf(nodes[i].name) == -1) {
+                    errorSeq.push(nodes[i].name);
+                }
+            }
+        }
+        function printNodes(root, parents) {
+            var parentsWithRoot = parents.slice(0);
+            parentsWithRoot.push(root);
+            if (parents.indexOf(root) == -1) {
+                for (var i = 0; i < root.children.length; i++) {                   
+                    var error = printNodes(root.children[i], parentsWithRoot);    
+                    if (error) {
+                        return true;
+                    }
+                }  
+            }
+            else {
+                addNodesToErrorSequence(parentsWithRoot);
+                return true;
+            } 
             if (bootSeq.indexOf(root.name) == -1) {
                 bootSeq.push(root.name);
             }
@@ -65,9 +82,8 @@ var TreeManager = (function() {
             
             printTree: function() {
                 for (var i = 0; i < tree.length; i++) {
-                    printNodes(tree[i]);
+                    printNodes(tree[i],[]);
                 }
-                //console.log(tree)
             }
         }
     }
@@ -102,7 +118,8 @@ function bootFromFile(inputStrings)
         treeManager.addNodes(rootName,nodeNames);
     }
     treeManager.printTree();
-    console.log(bootSeq);
+    console.log("build plan: " + bootSeq.toString());
+    console.log("error log: " + errorSeq.toString());
 }
 
 function readFile() {
